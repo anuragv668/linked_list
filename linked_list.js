@@ -8,30 +8,32 @@ class node {
 class linkedList {
   constructor() {
     this.head = null;
-    this.size = 0;
   }
 
   prepend(value) {
     this.head = new node(value, this.head);
-    this.size++;
   }
 
   append(value) {
     if (this.head == null) {
       this.head = new node(value);
-      this.size++;
     } else {
       let currentNode = this.head;
       while(currentNode.nextNode) {
         currentNode = currentNode.nextNode;
       }
       currentNode.nextNode = new node(value);
-      this.size++;
     }
   }
 
   size() {
-    return this.size;
+    let i = 0;
+    let currentNode = this.head;
+    while (currentNode) {
+      currentNode = currentNode.nextNode;
+      i++;
+    }
+    return i;
   }
 
   head() {
@@ -54,7 +56,6 @@ class linkedList {
       currentNode = currentNode.nextNode;
     }
     lastNode.nextNode = null;
-    this.size--;
   }
 
   at(index) {
@@ -109,6 +110,42 @@ class linkedList {
     }
     str = `${str}null`;
     return str;
+  }
+
+  insertAt(value, index) { 
+    if (index == 1) {
+      this.head = new node(value, this.head);
+    } else if (index <= 0 || index > this.size()) {
+      return "Error: Incorrect Index!";
+    } else {
+        let firstNode = this.head;
+        let secondNode = firstNode.nextNode;
+        let i = 2;
+        while(i < index) {
+          firstNode = secondNode;
+          secondNode = secondNode.nextNode;
+          i++;
+        }
+        firstNode.nextNode = new node(value, secondNode);
+    }
+  }
+
+  removeAt(index) {
+    if (index <= 0 || index > this.size()) {
+      return "Error: Incorrect Index!";
+    } else if (index === 1) {
+      this.head = this.head.nextNode;
+    } else {
+      let i = 2;
+      let firstNode = this.head;
+      let secondNode = firstNode.nextNode;
+      while(i < index) {
+        firstNode = secondNode;
+        secondNode = secondNode.nextNode;
+        i++;
+      }
+      firstNode.nextNode = secondNode.nextNode;
+    }
   }
 
 }
